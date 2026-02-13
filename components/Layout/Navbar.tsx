@@ -67,12 +67,17 @@ const Navbar: React.FC = () => {
 
         {/* CTA Button & Mobile Toggle */}
         <div className="flex items-center space-x-3">
-          <a href={`tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`} className="hidden sm:flex items-center space-x-2 px-5 py-2.5 bg-gray-900 text-white rounded-full text-xs font-bold hover:bg-hik-red transition-all shadow-lg shadow-gray-900/20 active:scale-95 group">
-            <Phone size={14} className="group-hover:rotate-12 transition-transform" />
-            <span>{CONTACT_DATA.phone}</span>
-          </a>
-
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
+            {/* Botón de teléfono - Solo icono en desktop */}
+            <a 
+              href={`tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`}
+              className="hidden sm:flex items-center justify-center w-10 h-10 bg-gray-900 text-white rounded-full hover:bg-hik-red transition-all shadow-lg shadow-gray-900/20 active:scale-95 group"
+              title={`Llamar: ${CONTACT_DATA.phone}`}
+              aria-label={`Llamar a ${CONTACT_DATA.phone}`}
+            >
+                <Phone size={18} className="group-hover:rotate-12 transition-transform" />
+            </a>
+            
+            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -80,20 +85,26 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div className={`absolute top-full left-0 mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 flex flex-col space-y-1 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,0.4,0.25,1)] origin-top ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-4 pointer-events-none'}`}>
-        {navLinks.map((link) => (
-          <a
-            key={link.name}
-            href={link.href}
+           {navLinks.map((link) => (
+            <a 
+              key={link.name}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-hik-red rounded-xl transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+          
+          {/* Botón de teléfono en móvil */}
+          <a 
+            href={`tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`} 
+            className="sm:hidden px-4 py-3 text-sm font-bold text-center bg-gray-900 text-white rounded-xl flex items-center justify-center space-x-2"
             onClick={() => setIsOpen(false)}
-            className="px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-hik-red rounded-xl transition-colors"
           >
-            {link.name}
+            <Phone size={16} />
+            <span>Llamar Ahora</span>
           </a>
-        ))}
-        <a href={`tel:${CONTACT_DATA.phone.replace(/\s/g, '')}`} className="sm:hidden px-4 py-3 text-sm font-bold text-center bg-gray-900 text-white rounded-xl flex items-center justify-center space-x-2">
-          <Phone size={16} />
-          <span>Llamar Ahora</span>
-        </a>
       </div>
     </nav>
   );
